@@ -27,3 +27,22 @@ y = 0.7 * X + 30
 단순 선형회귀 : 독립변수 1개
 다중 선형회귀 : 독립변수 2개
 
+⚫ SVM 주요 개념
+1) 결정경계(Decision Boundary): 두 클래스를 구분하는 기준선 (decision_function = 0)
+2) 마진(Margin): 결정경계와 서포트벡터(Support Vector) 간의 거리
+3) 서포트벡터(Support Vector): 마진 경계선 위에 위치한 데이터 포인트들
+4) 초평면(Hyperplane): 결정경계를 일반화한 개념 (2D에서는 직선, 3D에서는 평면)
+
+⚫ 혼동행렬 (confusion matrix)
+                실제
+            (True)       (False)
+예측(True)     TP          FP
+예측(False)    FN          TN
+
+TN : True Negative
+FP : False Positive
+FN : False Negative
+TP : True Positive
+
+실제 : 0 1 1 0 1 1 0 1 0 0
+예측 : 0 1 0 0 1 1 0 1 1 1

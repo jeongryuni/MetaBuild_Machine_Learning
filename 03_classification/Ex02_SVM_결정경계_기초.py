@@ -2,21 +2,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.svm import SVC
 
-'''
-📘 SVM 주요 개념
-1) 결정경계(Decision Boundary): 두 클래스를 구분하는 기준선 (decision_function = 0)
-2) 마진(Margin): 결정경계와 서포트벡터(Support Vector) 간의 거리
-3) 서포트벡터(Support Vector): 마진 경계선 위에 위치한 데이터 포인트들
-4) 초평면(Hyperplane): 결정경계를 일반화한 개념 (2D에서는 직선, 3D에서는 평면)
-'''
-
-
 # 1. 데이터 생성
 x_class1= np.array([[2,2],[3,3]])
 x_class2= np.array([[-2,-2],[-3,-3]])
 
 x = np.vstack((x_class1,x_class2)) # vstack: 두 배열을 세로로 쌓음 → shape (4,2)
-y = np.array([0,0,1,1]) # 클래스 레이블 → 0: 양의 방향, 1: 음의 방향
+y = np.array([0,0,1,1]) # 클래스 레이블 → 0: 양의 방향, 1: 음의 방향 (x의 데이터가 4개이므로 4개)
 print(x) # shape : (4,2)
 print(y) # shape : (4,)
 
@@ -26,8 +17,9 @@ model = SVC(kernel='linear') # 커널(kernel)을 'linear'로 설정 → 선형 �
 model.fit(x, y)
 
 # 학습된 파라미터(직선 방정식의 계수와 절편)
-coef = model.coef_[0] # 가중치 벡터 (w1, w2)
-intercept = model.intercept_  # 절편 b
+# 결정경계식 : w1x1 + w2x2 +b=0
+coef = model.coef_[0] # 결정경계의 기울기와 방향(법선 벡터),  가중치 벡터 (w1, w2)
+intercept = model.intercept_  #  결정경계의 위치 이동(bias), 절편 b
 print(f"model.coef_: {model.coef_}")
 print(f"model.intercept_: {model.intercept_}")
 print(f"model.support_vectors_:\n{model.support_vectors_}")  # 서포트 벡터 (가장 경계에 있는 점들)
