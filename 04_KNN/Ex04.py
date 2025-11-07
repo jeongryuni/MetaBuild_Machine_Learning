@@ -29,11 +29,7 @@ y = np.array([0]*(n//2) + [1]*(n//2))
 # 정상 : 초록별좌표
 # 스팸 : 노란별좌표
 
-new_emails = np.array([
-    [1.2, 0.8],
-    [3.5, 2.9],
-    [2.0, 2.0]
-])
+
 
 # 테스트 데이터 나누기
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
@@ -60,42 +56,27 @@ print(f"TP: {TP}")
 # 새로운 이메일은 별로 좌표 그리기
 # 정상 : 초록별좌표
 # 스팸 : 노란별좌표
+new_emails = np.array([
+    [1.2, 0.8],
+    [3.5, 2.9],
+    [2.0, 2.0]
+])
+
+pred = model.predict(new_emails)
+print(f"new_emails: {pred}")
+
 plt.rc('font', family='malgun Gothic')
 plt.rcParams['axes.unicode_minus'] = False
-plt.figure(figsize=[8,8])
-plt.scatter(x_train[y_train==0, 0], x_train[y_train==0, 1], color='blue', label='정상메일 실제0')
-plt.scatter(x_train[y_train==1, 0], x_train[y_train==1, 1],  color='red', label='스팸메일 실제1')
+plt.scatter(x_test[y_test==0, 0], x_test[y_test==0,1], color='blue', marker='o', label='정상')
+plt.scatter(x_test[y_test==1, 0], x_test[y_test==1,1], color='red', marker='o', label='비정상')
 
-for i in range(len(y_test)):
-    if y_test[i]==0 and (y_pred[i]==0):     # TN
-        plt.scatter(x_test[:,0], x_test[:,1], color='red', s=100, zorder=3)
+for i in range(len(pred)):
+    if pred[i]==1:
+        color = 'yellow'
+    else:
+        color = 'green'
+    plt.scatter(new_emails[i,0], new_emails[i,1], color=color,  marker='*')
 
-    elif y_test[i]==1 and y_pred[i]==1:   # TP
-        plt.scatter(x_test[i,0], x_test[i,1], color='yellow', s=100, zorder=2)
 
-    elif y_test[i]==0 and y_pred[i]==1:   # FP
-        plt.scatter(x_test[i,0], x_test[i,1], color='yellow', s=100, edgecolors='k', zorder=4)
-
-    elif y_test[i]==1 and y_pred[i]==0:   # FN
-        plt.scatter(x_test[i,0], x_test[i,1], color='green', s=100, edgecolors='k', zorder=4)
-
-plt.legend()
+plt.legend(loc='best')
 plt.show()
-
-pred_new = model.predict(new_emails)
-print(f'pred_new: {pred_new}')
-
-for i in range(len(new_emails)):
-    if new_emails[i]==0 and (pred_new[i]==0):     # TN
-        plt.scatter(new_emails[:,0], x_test[:,1], color='red', s=100, zorder=3)
-
-    elif new_emails[i]==1 and pred_new[i]==1:   # TP
-        plt.scatter(new_emails[i,0], new_emails[i,1], color='yellow', s=100, zorder=2)
-
-    elif new_emails[i]==0 and pred_new[i]==1:   # FP
-        plt.scatter(new_emails[i,0], new_emails[i,1], color='yellow', s=100, edgecolors='k', zorder=4)
-
-    elif new_emails[i]==1 and pred_new[i]==0:   # FN
-        plt.scatter(new_emails[i,0], new_emails[i,1], color='green', s=100, edgecolors='k', zorder=4)
-
-
